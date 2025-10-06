@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Advocate</title>
+  <title>Detalhes do Artigo</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -25,24 +25,20 @@
     </form>
   </nav>
 
-  <!-- Logo -->
-  <header class="cabecalho">
-    <a href="index.html">
-      <img src="images/logotheadvocatesemfundo.png" alt="Logo The Advocate">
-    </a>
-  </header>
 
-  <!-- Banner -->
-  <div class="banner">
-    <div class="banner-texto"></div>
-  </div>
+  <main class="detalhes-container">
+    <h1 id="titulo"></h1>
+    <div class="info-artigo">
+    <p><strong>Autor:</strong> <span id="autor"></span></p>
+    <p><strong>Data:</strong> <span id="data"></span></p>
+    </div>
+    <img id="imagem" src="" alt="">
+    <div id="conteudo"></div>
+   <div class="btn-container">
+  <a href="index.html" class="btn">Voltar</a>
+</div>
+  </main>
 
-  <!-- Cards -->
-  <section class="destaques">
-  <div id="container-cards"></div>
-  </section>
-
-  <!-- Rodapé -->
   <footer class="rodape">
     <div class="rodape-conteudo">
       <p>&copy; 2025 The Advocate. Todos os direitos reservados.</p>
@@ -51,21 +47,22 @@
   </footer>
 
   <script src="app.js"></script>
-<script>
-  const container = document.getElementById("container-cards");
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get("id"));
+    const item = dados.find(d => d.id === id);
 
-  dados.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "bloco";
-    card.innerHTML = `
-      <img src="${item.imagem}" alt="${item.titulo}">
-      <h3>${item.titulo}</h3>
-      <p>${item.descricao}</p>
-      <a href="detalhes.html?id=${item.id}" class="btn">LEIA MAIS</a>
-    `;
-    container.appendChild(card);
-  });
-</script>
+    if (item) {
+      document.getElementById("titulo").textContent = item.titulo;
+      document.getElementById("autor").textContent = item.autor;
+      document.getElementById("data").textContent = item.data;
+      document.getElementById("imagem").src = item.imagem;
+      document.getElementById("imagem").alt = item.titulo;
+      document.getElementById("conteudo").innerHTML = item.conteudo;
+    } else {
+      document.body.innerHTML = "<h2>Artigo não encontrado.</h2><a href='index.html' class='btn'>Voltar</a>";
+    }
+  </script>
 
 </body>
 </html>
